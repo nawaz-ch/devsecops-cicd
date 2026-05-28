@@ -98,6 +98,56 @@ jobs:
           name: checkov-dockerfile-report
           path: checkov-dockerfile-report.json
           if-no-files-found: warn
+  client-trivy-fs:
+       name: Clinet Trivy FS Scan
+       runs-on: ubuntu-latest
+       needs: gitleaks-scan
+
+       steps:
+         - name: Checkout source code
+           uses: actions/checkout@v4
+
+         - name : Install Trivy
+           uses: aquasecurity/setup-trivy@v0.2.6
+           with: 
+             version: lastest
+             cache: true
+
+         - name: Verify Trivy Installation
+           run: |
+             trivy --version
+             which trivy
+         - name: Run Trivy FS scan on client (JSON)
+           run: |
+            trivy fs ./client \
+            --format json \
+            --output client-trivy-fs-report.json \
+            --severity HIGH,CRITICAL \
+            --ignore-unfixed \
+            --exit-code 0
+         - name: Run Trivy FS scan on client (TABLE)
+           run: |
+            trivy fs ./client \
+            --format table \
+            --severity HIGH,CRITICAL \
+            --ignore-unfixed \
+            --exit-code 0 > client-trivy-fs-report.txt 
+         - name: Upload Client Trivy JSON report
+           uses: actions/upload-artifact@v4
+           with:
+            name: client-trivy-fs-json-report
+            path: client-trivy-fs-report.json
+            if-no-files-found: warn
+
+         - name: Upload Client Trivy TABLE report
+           uses: actions/upload-artifact@v4
+           with:
+            name: client-trivy-fs-table-report
+            path: client-trivy-fs-report.txt
+            if-no-files-found: warn
+
+
+  
         
          
     
