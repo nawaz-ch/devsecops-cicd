@@ -194,6 +194,68 @@ jobs:
             path: server-trivy-fs-report.txt
             if-no-files-found: warn
 
+  Client-lint:
+       name: Client-Lint
+       runs-on: ubuntu-latest
+       needs:
+         - client-trivy-fs
+         - checkov-dockerfile
+         - checkov-k8s
+         - checkov-terraform
+       defaults:
+         run:
+           working-directory: client
+       steps:
+         - name: checkout source code
+           uses: actions/checkout@v4
+
+         - name: Setup Node.js
+           uses: actions/setup-node@v4
+           with:
+             node-version: 18
+             cache: npm
+             cache-dependency-path: client/package-lock.json
+          
+         - name: Install client dependencies
+           run: npm ci
+
+         - name: Run client lint
+           run: npm run lint --if-present
+           continue-on-error: true
+
+
+  Server-lint:
+       name: Server-Lint
+       runs-on: ubuntu-latest
+       needs:
+         - server-trivy-fs
+         - checkov-dockerfile
+         - checkov-k8s
+         - checkov-terraform
+       defaults:
+         run:
+           working-directory: server
+       steps:
+         - name: checkout source code
+           uses: actions/checkout@v4
+
+         - name: Setup Node.js
+           uses: actions/setup-node@v4
+           with:
+             node-version: 18
+             cache: npm
+             cache-dependency-path: server/package-lock.json
+          
+         - name: Install client dependencies
+           run: npm ci
+
+         - name: Run server lint
+           run: npm run lint --if-present
+           continue-on-error: true
+           
+           
+       
+        
 
   
         
