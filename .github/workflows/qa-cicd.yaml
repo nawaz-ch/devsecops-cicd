@@ -396,13 +396,47 @@ jobs:
          uses: aws-actions/amazon-ecr-login@v2
 
 
-       - name: Build, tag, and push docker image to Amazon ECR
+       - name: Build, tag docker image
          env:
-             REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+             REGISTRY: devsecops
              REPOSITORY: my-ecr-repo
              IMAGE_TAG: ${{ github.sha }}
          run: |
            docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+
+     
+       - name: Install Trivy
+         uses: aquasecurity/setup-trivy@v0.2.6
+         with:
+          version: latest
+          cache: true
+          
+       - name: Verify Trivy installation
+         run: |
+          trivy --version
+           which trivy
+
+       - name: Run Trivy image scan (JSON)
+         run: |
+           trivy image devsecops/my-ecr-reppo:${{ github.sha }} \
+            --format json \
+            --output image-trivy-report.json \
+            --severity HIGH,CRITICAL \
+            --ignore-unfixed \
+            --exit-code 0
+       - name: Upload Trivy image JSON report
+         uses: actions/upload-artifact@v4
+         with:
+          name: image-trivy-json-report
+          path: image-trivy-report.json
+          if-no-files-found: warn
+
+       - name: push the image to ECR
+         env:
+             REGISTRY: devsecops
+             REPOSITORY: my-ecr-repo
+             IMAGE_TAG: ${{ github.sha }}
+         run: |
            docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
        
         
