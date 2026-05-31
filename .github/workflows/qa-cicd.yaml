@@ -381,6 +381,8 @@ jobs:
      steps:
        - name: Checkout source code
          uses: actions/checkout@v4
+         with:
+           ref: qa
          
        - name: Configure AWS Credentials
          uses: aws-actions/configure-aws-credentials@v6.1.0
