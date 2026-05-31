@@ -7,6 +7,9 @@ on:
       - client/**
       - server/**
       - .github/workflows/qa-cicd.yaml
+permissions:
+  id-token: write # Needed for OIDC
+  contents: write
 jobs:
   gitleaks-scan:
     name: Gitleaks-scan
