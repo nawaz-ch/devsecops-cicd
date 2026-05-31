@@ -437,7 +437,7 @@ jobs:
 
        - name: push the image to ECR
          env:
-             REGISTRY: devsecops
+             REGISTRY: ${{ steps.login-ecr.outputs.registry }}
              REPOSITORY: my-ecr-repo
              IMAGE_TAG: ${{ github.sha }}
          run: |
