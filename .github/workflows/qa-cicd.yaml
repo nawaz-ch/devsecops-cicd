@@ -403,6 +403,7 @@ jobs:
              IMAGE_TAG: ${{ github.sha }}
          run: |
            docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+           docker tag $REGISTRY/$REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:latest
 
      
        - name: Install Trivy
@@ -442,6 +443,7 @@ jobs:
              IMAGE_TAG: ${{ github.sha }}
          run: |
            docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+           docker push $REGISTRY/$REPOSITORY:latest
        
   update-qa-manifest:
      name: Update QA Manifest
@@ -509,7 +511,7 @@ jobs:
 
       - name: Deploy manifests
         run: |
-          kubectl apply -f NodeJS-App-QA-Yaml-Manifests/ -n "${K8S_NAMESPACE}"
+          kubectl apply -f k8s-manifests/qa/NodeJS-App-QA-Yaml-Manifests/ -n "${K8S_NAMESPACE}"
 
       - name: Verify rollout
         run: |
