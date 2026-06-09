@@ -65,7 +65,7 @@ jobs:
           sed -i "s|image: 339713166619.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:.*|image: 339713166619.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:prod-${GITHUB_SHA}|g" k8-manifests/prod/NodeJS-App-QA-Yaml-Manifests/app-deployment.yaml
 
       - name: Show updated manifest
-        run: cat k8-manifests/prod/app-deployment.yaml
+        run: cat k8-manifests/prod/NodeJS-App-QA-Yaml-Manifests/app-deployment.yaml
 
       - name: Commit and push updated prod manifest
         run: |
