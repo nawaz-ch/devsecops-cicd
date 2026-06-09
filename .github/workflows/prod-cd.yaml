@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - k8-manifests/prod/app-deployment.yaml
+      - prod/NodeJS-App-QA-Yaml-Manifests/app-deployment.yaml
       - .github/workflows/prod-cd.yml
 
 permissions:
