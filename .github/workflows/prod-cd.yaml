@@ -6,7 +6,8 @@ on:
       - main
     paths:
       - prod/NodeJS-App-QA-Yaml-Manifests/app-deployment.yaml
-      - .github/workflows/prod-cd.yml
+      - .github/workflows/prod-cd.yaml
+  workflow_dispatch:
 
 permissions:
   contents: write
