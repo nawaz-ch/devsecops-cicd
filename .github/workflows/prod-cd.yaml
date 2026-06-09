@@ -120,7 +120,7 @@ jobs:
 
       - name: Deploy prod manifests
         run: |
-          kubectl apply -f k8s-manifests/prod/ -n "${K8S_NAMESPACE}"
+          kubectl apply -f k8s-manifests/prod/NodeJS-App-QA-Yaml-Manifests -n "${K8S_NAMESPACE}"
 
       - name: Verify rollout
         run: |
