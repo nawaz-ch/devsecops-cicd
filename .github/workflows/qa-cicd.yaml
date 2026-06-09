@@ -458,7 +458,7 @@ jobs:
            ref: qa
        - name: Update image tag in manifest
          run: |
-           sed -i "s|image: 339713166619.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:.*|image: 339713166619.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:${GITHUB_SHA}|g" NodeJS-App-QA-Yaml-Manifests/app-deployment.yaml
+           sed -i "s|image: 339713166619.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:.*|image: 339713166619.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:${GITHUB_SHA}|g" k8s-manifests/qa/NodeJS-App-QA-Yaml-Manifests/app-deployment.yaml
        - name: Commit and Push changes
          run: |
             git config user.name "github-actions[bot]"
