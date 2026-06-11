@@ -496,6 +496,14 @@ jobs:
       - name: Generate kubeconfig for EKS
         run: aws eks update-kubeconfig --region "${AWS_REGION}" --name "${EKS_CLUSTER_NAME}"
 
+      - name: Create EKS Access Entry
+        run: |
+         aws eks create-access-entry --cluster-name retail-dev-eksdemo --region us-east-1 --principal-arn arn:aws:iam::339713166619:role/GitHubActionsEKSDeployRoleQA
+
+      - name: Associate EKS Access Policy
+        run: |
+         aws eks associate-access-policy --cluster-name retail-dev-eksdemo --region us-east-1 --principal-arn arn:aws:iam::339713166619:role/GitHubActionsEKSDeployRoleQA --policy-arn arn:aws:eks::aws:cluster-access-policy/AmazonEKSEditPolicy --access-scope type=namespace,namespaces=qa
+
       - name: Verify identity
         run: |
           aws sts get-caller-identity
