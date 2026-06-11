@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nodejs-app
-  namespace: qa
+  namespace: prod
 spec:
   replicas: 1
   selector:
@@ -17,7 +17,7 @@ spec:
       - name: regcred
       containers:
       - name: nodejs-app
-        image: 339713166619.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:5e876d4b3a58408bf54e99e207878fe046da46a3
+        image: 339713166619.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:prod-4b41d0c79f1b94247399f5ba2de6c3484c033802
         ports:
         - containerPort: 5000
         env:
