@@ -7,6 +7,7 @@ on:
       - client/**
       - server/**
       - .github/workflows/qa-cicd.yaml
+  workflow_dispatch: 
 permissions:
   id-token: write # Needed for OIDC
   contents: write
