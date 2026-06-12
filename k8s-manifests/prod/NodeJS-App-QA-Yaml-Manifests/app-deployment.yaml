@@ -17,7 +17,7 @@ spec:
       - name: regcred
       containers:
       - name: nodejs-app
-        image: 339713166619.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:prod-2ab931e7c79feff2955b03464de17f5692a6674a
+        image: 339713166619.dkr.ecr.us-east-1.amazonaws.com/my-ecr-repo:prod-1fad2e8d34d0d6b5a5f6321e51eeea5bc61b0b38
         ports:
         - containerPort: 5000
         env:
