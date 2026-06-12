@@ -105,7 +105,24 @@ jobs:
         run: aws eks update-kubeconfig --region "${AWS_REGION}" --name "${EKS_CLUSTER_NAME}"
       - name: Create EKS Access Entry
         run: |
-         aws eks create-access-entry --cluster-name retail-dev-eksdemo --region us-east-1 --principal-arn arn:aws:iam::339713166619:role/GitHubActionsEKSDeployRoleProd
+             PRINCIPAL_ARN="arn:aws:iam::339713166619:role/GitHubActionsEKSDeployRoleProd"
+             CLUSTER="retail-dev-eksdemo"
+             REGION="us-east-1"
+                 # Check if access entry already exists
+                        if aws eks describe-access-entry \
+                           --cluster-name $CLUSTER \
+                          --region $REGION \
+                          --principal-arn $PRINCIPAL_ARN 2>/dev/null; then
+                          echo "Access entry already exists, skipping creation..."
+                       else
+                          echo "Creating access entry..."
+                          aws eks create-access-entry \
+                         --cluster-name $CLUSTER \
+                        --region $REGION \
+                       --principal-arn $PRINCIPAL_ARN
+                      fi
+
+ 
 
       - name: Associate EKS Access Policy
         run: |
